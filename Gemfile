@@ -1,12 +1,19 @@
+# frozen_string_literal: true
 source 'https://rubygems.org'
 
+gem 'bootsnap', '>= 1.4.2', require: false
+gem 'puma', '~> 4.1'
 gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'master'
 gem 'sqlite3', '~> 1.4'
-gem 'puma', '~> 4.1'
-gem 'bootsnap', '>= 1.4.2', require: false
 
 group :development, :test do
   gem 'byebug'
+  gem 'rubocop', '~> 0.93', require: false
+  gem 'rubocop-minitest', require: false
+  gem 'rubocop-performance', require: false
+  gem 'rubocop-rails', require: false
+  gem 'rubocop-shopify', require: false
+  gem 'rubocop-sorbet', require: false
 end
 
 group :development do

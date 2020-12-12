@@ -1,0 +1,177 @@
+# This file strictly follows the rules defined in the Ruby style guide:
+#   http://shopify.github.io/ruby-style-guide/
+# Before updating anything please sync-up with #ruby-style-guide on Slack.
+
+require:
+  - rubocop-minitest
+  - rubocop-performance
+  - rubocop-rails
+  - rubocop-sorbet
+
+inherit_gem:
+  rubocop-shopify: rubocop.yml
+
+AllCops:
+  TargetRubyVersion: 2.7
+  Exclude:
+    - .pryrc
+    - db/**/*
+    - node_modules/**/*
+    - tmp/**/*
+    - bin/**/*
+
+Style/FrozenStringLiteralComment:
+  Enabled: true
+  Exclude:
+    - db/**/*.rb
+
+Style/NumericLiteralPrefix:
+  Enabled: true
+  EnforcedOctalStyle: zero_with_o
+
+Style/MutableConstant:
+  Enabled: true
+
+Layout/LineLength:
+  IgnoreCopDirectives: true
+
+Bundler/OrderedGems:
+  Enabled: true
+
+Sorbet/HasSigil:
+  Enabled: true
+  Exclude:
+    - Gemfile
+    - Gemfile.lock
+    - Rakefile
+    - bin/**/*
+    - lib/tasks/**/*
+    - config/**/*
+    - test/**/*
+
+Sorbet/EnforceSigilOrder:
+  Enabled: true
+
+Lint/MissingSuper:
+  Enabled: false
+
+Minitest:
+  Enabled: true
+
+Minitest/AssertTruthy:
+  Enabled: false
+
+Minitest/RefuteFalse:
+  Enabled: false
+
+Minitest/AssertInDelta:
+  Enabled: true
+
+Minitest/AssertionInLifecycleHook:
+  Enabled: true
+
+Minitest/AssertKindOf:
+  Enabled: true
+
+Minitest/AssertOutput:
+  Enabled: true
+
+Minitest/AssertPathExists:
+  Enabled: true
+
+Minitest/AssertSilent:
+  Enabled: true
+
+Minitest/LiteralAsActualArgument:
+  Enabled: true
+
+Minitest/MultipleAssertions:
+  Enabled: true
+
+Minitest/RefuteInDelta:
+  Enabled: true
+
+Minitest/RefuteKindOf:
+  Enabled: true
+
+Minitest/RefutePathExists:
+  Enabled: true
+
+Minitest/TestMethodName:
+  Enabled: true
+
+Minitest/UnspecifiedException:
+  Enabled: true
+
+Rails:
+  Enabled: true
+
+Rails/TimeZone:
+  Enabled: true
+
+Rails/RefuteMethods:
+  Enabled: false
+
+Rails/UniqueValidationWithoutIndex:
+  Enabled: false
+
+Rails/HasManyOrHasOneDependent:
+  Enabled: true
+
+Rails/AttributeDefaultBlockValue:
+  Enabled: true
+
+Rails/UnknownEnv:
+  Environments:
+    - development
+    - test
+    - staging
+    - production
+
+Rails/ActiveRecordCallbacksOrder:
+  Enabled: true
+
+Rails/AfterCommitOverride:
+  Enabled: true
+
+Rails/FindById:
+  Enabled: true
+
+Rails/Inquiry:
+  Enabled: true
+
+Rails/MailerName:
+  Enabled: true
+
+Rails/MatchRoute:
+  Enabled: true
+
+Rails/NegateInclude:
+  Enabled: true
+
+Rails/Pluck:
+  Enabled: true
+
+Rails/PluckInWhere:
+  Enabled: true
+
+Rails/RenderInline:
+  Enabled: true
+
+Rails/RenderPlainText:
+  Enabled: true
+
+Rails/ShortI18n:
+  Enabled: true
+
+Rails/SquishedSQLHeredocs:
+  Enabled: true
+
+Rails/WhereEquals:
+  Enabled: true
+
+Rails/WhereExists:
+  Enabled: true
+
+Rails/WhereNot:
+  Enabled: true
