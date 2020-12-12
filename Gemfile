@@ -8,6 +8,10 @@ gem 'sqlite3', '~> 1.4'
 
 group :development, :test do
   gem 'byebug'
+  gem 'factory_bot_rails'
+  gem 'pry'
+  gem 'pry-byebug'
+  gem 'pry-rails'
   gem 'rubocop', '~> 0.93', require: false
   gem 'rubocop-minitest', require: false
   gem 'rubocop-performance', require: false
@@ -21,4 +25,8 @@ group :development do
   gem 'spring'
   gem 'spring-watcher-listen', '~> 2.0.0'
   gem 'web-console', '>= 3.3.0'
+end
+
+group :test do
+  gem 'mocha'
 end
