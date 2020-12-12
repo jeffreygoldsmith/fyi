@@ -1,0 +1,5 @@
+--dir
+.
+--ignore=.git/
+--ignore=config/
+--ignore=test/

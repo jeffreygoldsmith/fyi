@@ -4,6 +4,7 @@ source 'https://rubygems.org'
 gem 'bootsnap', '>= 1.4.2', require: false
 gem 'puma', '~> 4.1'
 gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'master'
+gem 'sorbet-runtime'
 gem 'sqlite3', '~> 1.4'
 
 group :development, :test do
@@ -18,6 +19,8 @@ group :development, :test do
   gem 'rubocop-rails', require: false
   gem 'rubocop-shopify', require: false
   gem 'rubocop-sorbet', require: false
+  gem 'sorbet'
+  gem 'tapioca', git: 'https://github.com/Shopify/tapioca.git', branch: 'master', require: false
 end
 
 group :development do
