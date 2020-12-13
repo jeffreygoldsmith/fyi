@@ -12,13 +12,10 @@ module Api
           type: "url_verification",
         }
 
-        post '/api/remote_events/slack', params: payload
+        SlackController.any_instance.expects(:verify_token)
+        post api_remote_events_slack_path, params: payload
 
-        expected_result = {
-          "challenge" => payload[:challenge],
-        }
-
-        assert_equal expected_result, JSON.parse(response.body)
+        assert_equal payload[:challenge], response.body
       end
     end
   end
