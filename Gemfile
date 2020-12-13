@@ -2,10 +2,10 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'pg'
 gem 'puma', '~> 4.1'
 gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'master'
 gem 'sorbet-runtime'
-gem 'sqlite3', '~> 1.4'
 
 group :development, :test do
   gem 'byebug'
