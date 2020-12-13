@@ -7,6 +7,7 @@ gem 'pg'
 gem 'puma', '~> 4.1'
 gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'master'
 gem 'sorbet-runtime'
+gem 'slack-ruby-client'
 
 group :development, :test do
   gem 'byebug'
