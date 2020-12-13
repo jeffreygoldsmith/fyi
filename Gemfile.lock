@@ -112,6 +112,10 @@ GEM
       highline (~> 2.0.0)
     concurrent-ruby (1.1.7)
     crass (1.0.6)
+    ejson (1.2.1)
+    ejson-rails (0.1.1)
+      ejson
+      railties (>= 4.1)
     erubi (1.10.0)
     factory_bot (6.1.0)
       activesupport (>= 5.0.0)
@@ -243,6 +247,7 @@ PLATFORMS
 DEPENDENCIES
   bootsnap (>= 1.4.2)
   byebug
+  ejson-rails
   factory_bot_rails
   listen (~> 3.2)
   mocha

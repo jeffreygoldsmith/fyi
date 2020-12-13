@@ -2,6 +2,7 @@
 source 'https://rubygems.org'
 
 gem 'bootsnap', '>= 1.4.2', require: false
+gem 'ejson-rails'
 gem 'pg'
 gem 'puma', '~> 4.1'
 gem 'rails', git: 'https://github.com/rails/rails.git', branch: 'master'
