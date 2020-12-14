@@ -8,6 +8,9 @@ module GeneratedUrlHelpersModule
   include ::ActionDispatch::Routing::UrlFor
 
   sig { params(args: T.untyped).returns(String) }
+  def api_remote_events_slack_url(*args); end
+
+  sig { params(args: T.untyped).returns(String) }
   def new_rails_conductor_inbound_email_source_url(*args); end
 
   sig { params(args: T.untyped).returns(String) }
