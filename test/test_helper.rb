@@ -6,6 +6,10 @@ require_relative "../config/environment"
 require "rails/test_help"
 require 'mocha/minitest'
 
+Dir[Rails.root.join('test/support/**/*.rb')].each do |file|
+  require file
+end
+
 Mocha.configure do |c|
   c.stubbing_method_unnecessarily = :prevent
   c.stubbing_method_on_non_mock_object = :allow
@@ -15,6 +19,7 @@ end
 module ActiveSupport
   class TestCase
     include FactoryBot::Syntax::Methods
+    include LoggerAssertions
   end
 
   class ParallelizableTestCase < TestCase

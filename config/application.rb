@@ -31,6 +31,12 @@ module Fyi
     # -- all .rb files in that directory are automatically loaded after loading
     # the framework and any gems in your application.
 
+    %w(
+      lib
+    ).each do |load_path|
+      config.autoload_paths << (Rails.root + load_path).to_s
+    end
+
     # Only loads a smaller set of middleware suitable for API only apps.
     # Middleware like session, flash, cookies can be added back manually.
     # Skip views, helpers and assets when generating a new resource.
