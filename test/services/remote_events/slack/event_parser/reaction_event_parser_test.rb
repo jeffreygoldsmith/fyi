@@ -6,7 +6,7 @@ require 'test_helper'
 module RemoteEvents
   module Slack
     module EventParser
-      class ReactionEventHandlerTest < ActiveSupport::TestCase
+      class ReactionEventParserTest < ActiveSupport::TestCase
         include RemoteEventHelper
 
         test "#accepts_event_type? returns true for the ReactionAdded and ReactionRemoved types" do

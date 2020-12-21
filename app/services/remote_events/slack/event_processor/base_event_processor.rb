@@ -17,7 +17,7 @@ module RemoteEvents
         sig { abstract.returns(T::Boolean) }
         def process; end
 
-        sig { abstract.params(event_type: String).returns(T::Boolean) }
+        sig { abstract.params(event_type: ::Slack::RemoteEvent::Type).returns(T::Boolean) }
         def self.accepts_event_type?(event_type:); end
 
         def slack_client

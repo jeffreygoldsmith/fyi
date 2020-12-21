@@ -6,7 +6,7 @@ require 'test_helper'
 module RemoteEvents
   module Slack
     module EventParser
-      class UnsupportedEventHandlerTest < ActiveSupport::TestCase
+      class UnsupportedEventParserTest < ActiveSupport::TestCase
         test "#accepts_event_type? always returns true" do
           accepted = UnsupportedEventParser.accepts_event_type?(
             event_type: ::Slack::RemoteEvent::Type::Unknown

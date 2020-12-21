@@ -6,7 +6,7 @@ require 'test_helper'
 module RemoteEvents
   module Slack
     module EventParser
-      class MessageEventHandlerTest < ActiveSupport::TestCase
+      class MessageEventParserTest < ActiveSupport::TestCase
         include RemoteEventHelper
 
         test "#accepts_event_type? returns true for the Message type" do
