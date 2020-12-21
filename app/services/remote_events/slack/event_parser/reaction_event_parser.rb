@@ -8,11 +8,10 @@ module RemoteEvents
         extend(T::Sig)
 
         SUPPORTED_SLACK_EVENT_TYPES = T.let([
-            ::Slack::RemoteEvent::Type::ReactionAdded,
-            ::Slack::RemoteEvent::Type::ReactionRemoved,
-          ].freeze,
-          T::Array[::Slack::RemoteEvent::Type]
-        )
+          ::Slack::RemoteEvent::Type::ReactionAdded,
+          ::Slack::RemoteEvent::Type::ReactionRemoved,
+        ].freeze,
+          T::Array[::Slack::RemoteEvent::Type])
 
         sig { override.returns(::Slack::RemoteEvent) }
         def parse
@@ -20,7 +19,7 @@ module RemoteEvents
             user: @event[:user],
             reaction: @event[:reaction],
             message_channel: @event[:item][:channel],
-            message_timestamp: @event[:item][:ts]
+            message_timestamp: @event[:item][:ts],
           }
 
           ::Slack::RemoteEvent.new(type: @event_type, metadata: metadata)

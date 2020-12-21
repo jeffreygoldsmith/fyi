@@ -8,10 +8,9 @@ module RemoteEvents
         extend(T::Sig)
 
         SUPPORTED_SLACK_EVENT_TYPES = T.let([
-            ::Slack::RemoteEvent::Type::Message,
-          ].freeze,
-          T::Array[::Slack::RemoteEvent::Type]
-        )
+          ::Slack::RemoteEvent::Type::Message,
+        ].freeze,
+          T::Array[::Slack::RemoteEvent::Type])
 
         sig { override.returns(::Slack::RemoteEvent) }
         def parse

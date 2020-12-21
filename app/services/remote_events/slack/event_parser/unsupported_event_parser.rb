@@ -10,7 +10,7 @@ module RemoteEvents
 
         sig { override.returns(::Slack::RemoteEvent) }
         def parse
-          Rails.logger.error("Attempted to parse unsupported slack event: #{@event_type}")
+          log_error("Attempted to parse unsupported slack event", fields: { type: @event[:type] })
           ::Slack::RemoteEvent.new(type: @event_type)
         end
 

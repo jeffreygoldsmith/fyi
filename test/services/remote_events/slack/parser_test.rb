@@ -10,7 +10,7 @@ module RemoteEvents
       setup do
         @event = raw_remote_event
         @remote_event = build_remote_event
-        @event_parser = mock()
+        @event_parser = mock
         @parser = Parser.new(event: @event)
       end
 
@@ -50,7 +50,9 @@ module RemoteEvents
           )
           .returns(@event_parser)
 
-        expected_log = /.*Created remote event type: "#{@remote_event.type.serialize}", metadata: "#{@remote_event.metadata}"/
+
+        expected_fields = "type: \"#{@remote_event.type.serialize}\", metadata: \"#{@remote_event.metadata}\""
+        expected_log = /.*Created remote event #{expected_fields}/
         assert_logs(:info, expected_log) do
           @parser.parse
         end
