@@ -20,7 +20,7 @@ module RemoteEvents
         ).parse
 
         fields = {
-          type: remote_event.type,
+          type: remote_event.type.serialize,
           metadata: remote_event.metadata,
         }
         log_info("Created remote event", fields: fields)
