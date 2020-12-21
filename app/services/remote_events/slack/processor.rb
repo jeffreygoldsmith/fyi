@@ -13,7 +13,7 @@ module RemoteEvents
 
       sig { void }
       def process
-        RemoteEvents::Slack::EventHandler::Provider.provide_for(remote_event: @remote_event).handle
+        RemoteEvents::Slack::EventProcessor::Provider.provide_for(remote_event: @remote_event).handle
       end
     end
   end

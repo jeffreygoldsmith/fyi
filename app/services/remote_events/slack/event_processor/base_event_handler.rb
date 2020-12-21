@@ -3,8 +3,8 @@
 
 module RemoteEvents
   module Slack
-    module EventHandler
-      class BaseEventHandler
+    module EventProcessor
+      class BaseEventProcessor
         extend(T::Sig)
         extend(T::Helpers)
         abstract!

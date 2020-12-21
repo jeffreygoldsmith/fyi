@@ -3,8 +3,8 @@
 
 module RemoteEvents
   module Slack
-    module EventHandler
-      class UnsupportedEventHandler < BaseEventHandler
+    module EventProcessor
+      class UnsupportedEventProcessor < BaseEventProcessor
         extend(T::Sig)
 
         sig { override.returns(T::Boolean) }

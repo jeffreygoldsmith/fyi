@@ -18,8 +18,7 @@ module Api
           render(plain: params[:challenge])
         when EVENT_CALLBACK_EVENT
           remote_event = ::RemoteEvents::Slack::Parser.new(event: params[:event]).parse
-          processor = ::RemoteEvents::Slack::Processor.new(remote_event: remote_event)
-          processor.process
+          processor = ::RemoteEvents::Slack::Processor.new(remote_event: remote_event).process
           head(:ok)
         else
           head(:bad_request)

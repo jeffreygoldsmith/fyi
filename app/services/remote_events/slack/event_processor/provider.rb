@@ -3,11 +3,11 @@
 
 module RemoteEvents
   module Slack
-    module EventHandler
+    module EventProcessor
       class Provider
         class << self
           extend(T::Sig)
-          sig { params(remote_event: ::Slack::RemoteEvent).returns(BaseEventHandler) }
+          sig { params(remote_event: ::Slack::RemoteEvent).returns(BaseEventProcessor) }
           def provide_for(remote_event:)
             T.must(
               handlers.detect do |handler|
@@ -18,19 +18,19 @@ module RemoteEvents
 
           private
 
-          sig { returns(T::Array[T.class_of(BaseEventHandler)]) }
+          sig { returns(T::Array[T.class_of(BaseEventProcessor)]) }
           def handlers
             supported_event_handlers.push(unsupported_event_handler).freeze
           end
 
-          sig { returns(T::Array[T.class_of(BaseEventHandler)]) }
+          sig { returns(T::Array[T.class_of(BaseEventProcessor)]) }
           def supported_event_handlers
             []
           end
 
-          sig { returns(T.class_of(BaseEventHandler)) }
+          sig { returns(T.class_of(BaseEventProcessor)) }
           def unsupported_event_handler
-            UnsupportedEventHandler
+            UnsupportedEventProcessor
           end
         end
       end
