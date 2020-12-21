@@ -14,7 +14,10 @@ module RemoteEvents
 
       sig { returns(::Slack::RemoteEvent) }
       def parse
-        remote_event = RemoteEvents::Slack::EventParser::Provider.provide_for(event: @event, event_type: @event_type).parse
+        remote_event = RemoteEvents::Slack::EventParser::Provider.provide_for(
+          event: @event,
+          event_type: @event_type
+        ).parse
 
         fields = {
           type: remote_event.type,

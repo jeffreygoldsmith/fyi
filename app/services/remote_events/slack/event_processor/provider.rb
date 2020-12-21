@@ -10,8 +10,8 @@ module RemoteEvents
           sig { params(remote_event: ::Slack::RemoteEvent).returns(BaseEventProcessor) }
           def provide_for(remote_event:)
             T.must(
-              handlers.detect do |handler|
-                handler.accepts_event_type?(event_type: remote_event.type)
+              processors.detect do |processor|
+                processor.accepts_event_type?(event_type: remote_event.type)
               end
             ).new(remote_event: remote_event)
           end
@@ -19,17 +19,17 @@ module RemoteEvents
           private
 
           sig { returns(T::Array[T.class_of(BaseEventProcessor)]) }
-          def handlers
-            supported_event_handlers.push(unsupported_event_handler).freeze
+          def processors
+            supported_event_processors.push(unsupported_event_processor).freeze
           end
 
           sig { returns(T::Array[T.class_of(BaseEventProcessor)]) }
-          def supported_event_handlers
+          def supported_event_processors
             []
           end
 
           sig { returns(T.class_of(BaseEventProcessor)) }
-          def unsupported_event_handler
+          def unsupported_event_processor
             UnsupportedEventProcessor
           end
         end

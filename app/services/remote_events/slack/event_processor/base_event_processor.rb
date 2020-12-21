@@ -15,7 +15,7 @@ module RemoteEvents
         end
 
         sig { abstract.returns(T::Boolean) }
-        def handle; end
+        def process; end
 
         sig { abstract.params(event_type: String).returns(T::Boolean) }
         def self.accepts_event_type?(event_type:); end

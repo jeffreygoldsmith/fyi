@@ -8,7 +8,7 @@ module RemoteEvents
         extend(T::Sig)
 
         sig { override.returns(T::Boolean) }
-        def handle
+        def process
           Rails.logger.error("Received unsupported slack event: #{@remote_event.type}")
           false
         end
