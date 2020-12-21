@@ -9,7 +9,7 @@ module RemoteEvents
         extend(T::Helpers)
         abstract!
 
-        sig { params(remote_event: RemoteEvent).void }
+        sig { params(remote_event: ::Slack::RemoteEvent).void }
         def initialize(remote_event:)
           @remote_event = remote_event
         end
