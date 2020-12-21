@@ -5,7 +5,7 @@ module Slack
     extend T::Sig
     extend Loggable
 
-    attr_accessor :type, :metadata
+    attr_accessor :type, :user_id, :metadata
 
     class Type < T::Enum
       enums do
@@ -16,9 +16,16 @@ module Slack
       end
     end
 
-    sig { params(type: Type, metadata: T::Hash[Symbol, T.untyped]).void }
-    def initialize(type:, metadata: {})
+    sig do
+      params(
+        type: Type,
+        user_id: String,
+        metadata: T::Hash[Symbol, T.untyped]
+      ).void
+    end
+    def initialize(type:, user_id:, metadata: {})
       @type = type
+      @user_id = user_id
       @metadata = metadata
     end
   end

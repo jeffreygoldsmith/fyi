@@ -32,6 +32,7 @@ module RemoteEventHelper
   def build_remote_event
     ::Slack::RemoteEvent.new(
       type: ::Slack::RemoteEvent::Type::Message,
+      user_id: "U2147483697",
       metadata: {
         test_metadata: "test_metadata",
       }

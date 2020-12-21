@@ -5,14 +5,14 @@ require 'test_helper'
 
 module RemoteEvents
   module Slack
-    module EventParser
-      class MessageEventParserTest < ActiveSupport::TestCase
+    module EventHandlers
+      class MessageEventHandlerTest < ActiveSupport::TestCase
         include RemoteEventHelper
 
         test "#accepts_event_type? returns true for the Message type" do
-          assert_equal 1, MessageEventParser::SUPPORTED_SLACK_EVENT_TYPES.count
+          assert_equal 1, MessageEventHandler::SUPPORTED_SLACK_EVENT_TYPES.count
 
-          accepted = MessageEventParser.accepts_event_type?(
+          accepted = MessageEventHandler.accepts_event_type?(
             event_type: ::Slack::RemoteEvent::Type::Message
           )
           assert_equal true, accepted
@@ -21,19 +21,21 @@ module RemoteEvents
         test "#parse returns a remote event with the correct type and metadata" do
           event = raw_remote_event
           event_type = ::Slack::RemoteEvent::Type::Message
-          message_event_parser = MessageEventParser.new(
+          message_event_handler = MessageEventHandler.new(
             event: event,
             event_type: event_type
           )
-          remote_event = message_event_parser.parse
+          remote_event = message_event_handler.parse
 
+          expected_user_id = event[:user]
           expected_metadata = {
-            user: "U2147483697",
-            text: "Hello world",
-            channel: "C2147483705",
-            timestamp: "1355517523.000005",
+            text: event[:text],
+            channel: event[:channel],
+            timestamp: event[:ts],
           }
+
           assert_equal event_type, remote_event.type
+          assert_equal expected_user_id, remote_event.user_id
           assert_equal expected_metadata, remote_event.metadata
         end
       end

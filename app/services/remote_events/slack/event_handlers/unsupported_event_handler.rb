@@ -3,14 +3,14 @@
 
 module RemoteEvents
   module Slack
-    module EventParser
-      class UnsupportedEventParser < BaseEventParser
+    module EventHandlers
+      class UnsupportedEventHandler < BaseEventHandler
         include Loggable
         extend(T::Sig)
 
         sig { override.returns(::Slack::RemoteEvent) }
         def parse
-          log_error("Attempted to parse unsupported slack event", fields: { type: @event[:type] })
+          log_error("Attempted to handle unsupported slack event", fields: { type: @event[:type] })
           ::Slack::RemoteEvent.new(type: @event_type)
         end
 

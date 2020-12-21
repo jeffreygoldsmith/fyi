@@ -5,19 +5,19 @@ require 'test_helper'
 
 module RemoteEvents
   module Slack
-    module EventParser
-      class ReactionEventParserTest < ActiveSupport::TestCase
+    module EventHandlers
+      class ReactionEventHandlerTest < ActiveSupport::TestCase
         include RemoteEventHelper
 
         test "#accepts_event_type? returns true for the ReactionAdded and ReactionRemoved types" do
-          assert_equal 2, ReactionEventParser::SUPPORTED_SLACK_EVENT_TYPES.count
+          assert_equal 2, ReactionEventHandler::SUPPORTED_SLACK_EVENT_TYPES.count
 
-          accepted = ReactionEventParser.accepts_event_type?(
+          accepted = ReactionEventHandler.accepts_event_type?(
             event_type: ::Slack::RemoteEvent::Type::ReactionAdded
           )
           assert_equal true, accepted
 
-          accepted = ReactionEventParser.accepts_event_type?(
+          accepted = ReactionEventHandler.accepts_event_type?(
             event_type: ::Slack::RemoteEvent::Type::ReactionRemoved
           )
           assert_equal true, accepted
@@ -26,19 +26,21 @@ module RemoteEvents
         test "#parse returns a remote event with the correct type and metadata" do
           event = raw_reaction_event
           event_type = ::Slack::RemoteEvent::Type::ReactionAdded
-          reaction_event_parser = ReactionEventParser.new(
+          reaction_event_handler = ReactionEventHandler.new(
             event: event,
             event_type: event_type
           )
-          remote_event = reaction_event_parser.parse
+          remote_event = reaction_event_handler.parse
 
+          expected_user_id = event[:user]
           expected_metadata = {
-            user: "U024BE7LH",
-            reaction: "thumbsup",
-            message_channel: "C0G9QF9GZ",
-            message_timestamp: "1360782400.498405",
+            reaction: event[:reaction],
+            message_channel: event[:item][:channel],
+            message_timestamp: event[:item][:ts],
           }
+
           assert_equal event_type, remote_event.type
+          assert_equal expected_user_id, remote_event.user_id
           assert_equal expected_metadata, remote_event.metadata
         end
       end

@@ -3,7 +3,7 @@
 
 module RemoteEvents
   module Slack
-    module EventParser
+    module EventHandlers
       class Provider
         class << self
           extend(T::Sig)
@@ -12,31 +12,31 @@ module RemoteEvents
             params(
               event: T::Hash[Symbol, T.untyped],
               event_type: ::Slack::RemoteEvent::Type,
-            ).returns(BaseEventParser)
+            ).returns(BaseEventHandler)
           end
           def provide_for(event:, event_type:)
             T.must(
-              parsers.detect do |parser|
-                parser.accepts_event_type?(event_type: event_type)
+              handlers.detect do |handler|
+                handler.accepts_event_type?(event_type: event_type)
               end
             ).new(event: event, event_type: event_type)
           end
 
           private
 
-          sig { returns(T::Array[T.class_of(BaseEventParser)]) }
-          def parsers
-            supported_event_parsers.push(unsupported_event_parser).freeze
+          sig { returns(T::Array[T.class_of(BaseEventHandler)]) }
+          def handlers
+            supported_event_handlers.push(unsupported_event_handler).freeze
           end
 
-          sig { returns(T::Array[T.class_of(BaseEventParser)]) }
-          def supported_event_parsers
+          sig { returns(T::Array[T.class_of(BaseEventHandler)]) }
+          def supported_event_handlers
             []
           end
 
-          sig { returns(T.class_of(BaseEventParser)) }
-          def unsupported_event_parser
-            UnsupportedEventParser
+          sig { returns(T.class_of(BaseEventHandler)) }
+          def unsupported_event_handler
+            UnsupportedEventHandler
           end
         end
       end

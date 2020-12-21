@@ -3,8 +3,8 @@
 
 module RemoteEvents
   module Slack
-    module EventParser
-      class BaseEventParser
+    module EventHandlers
+      class BaseEventHandler
         extend(T::Sig)
         extend(T::Helpers)
         abstract!
@@ -20,11 +20,19 @@ module RemoteEvents
           @event_type = event_type
         end
 
+        sig { abstract.params(event_type: ::Slack::RemoteEvent::Type).returns(T::Boolean) }
+        def self.accepts_event_type?(event_type:); end
+
         sig { abstract.returns(::Slack::RemoteEvent) }
         def parse; end
 
-        sig { abstract.params(event_type: ::Slack::RemoteEvent::Type).returns(T::Boolean) }
-        def self.accepts_event_type?(event_type:); end
+        sig { abstract.returns(T::Boolean) }
+        def process; end
+
+        sig { returns(T::Boolean) }
+        def skip_fyi_event?
+          true
+        end
       end
     end
   end
