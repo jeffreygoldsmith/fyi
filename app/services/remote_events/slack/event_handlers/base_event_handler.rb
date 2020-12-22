@@ -13,11 +13,13 @@ module RemoteEvents
           params(
             event: T::Hash[Symbol, T.untyped],
             event_type: ::Slack::RemoteEvent::Type,
+            slack_client: ::Slack::Web::Client,
           ).void
         end
-        def initialize(event:, event_type:)
+        def initialize(event:, event_type:, slack_client:)
           @event = event
           @event_type = event_type
+          @slack_client = slack_client
         end
 
         sig { abstract.params(event_type: ::Slack::RemoteEvent::Type).returns(T::Boolean) }
@@ -30,7 +32,7 @@ module RemoteEvents
         def process; end
 
         sig { returns(T::Boolean) }
-        def skip_fyi_event?
+        def skip_fyi_events?
           true
         end
       end
