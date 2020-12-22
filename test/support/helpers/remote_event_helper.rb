@@ -1,7 +1,7 @@
 # typed: true
 # frozen_string_literal: true
 
-module RemoteEventHelper
+module RemoteEventTestHelper
   private
 
   def raw_remote_event

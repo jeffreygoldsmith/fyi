@@ -7,7 +7,7 @@ module RemoteEvents
   module Slack
     module EventHandlers
       class ProviderTest < ActiveSupport::TestCase
-        include RemoteEventHelper
+        include RemoteEventTestHelper
 
         class MockEventHandler < BaseEventHandler
           def self.accepts_event_type?(event_type:) # rubocop:disable Lint/UnusedMethodArgument

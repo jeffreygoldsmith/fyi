@@ -5,12 +5,12 @@ require 'test_helper'
 module RemoteEvents
   module Slack
     class HandlerTest < ActiveSupport::TestCase
-      include RemoteEventHelper
+      include RemoteEventTestHelper
 
       class TestEventHandler < EventHandlers::BaseEventHandler
-        include RemoteEventHelper
+        include RemoteEventTestHelper
 
-        def self.accepts_event_type?(event_type:)
+        def self.accepts_event_type?(event_type:) # rubocop:disable Lint/UnusedMethodArgument
           true
         end
 
@@ -38,13 +38,12 @@ module RemoteEvents
         EventHandlers::Provider
           .expects(:provide_for)
           .with(has_entries(
-              event: @event,
-              event_type: ::Slack::RemoteEvent::Type::Message,
-              slack_client: instance_of(::Slack::Web::Client)
+            event: @event,
+            event_type: ::Slack::RemoteEvent::Type::Message,
+            slack_client: instance_of(::Slack::Web::Client)
           ))
           .returns(@event_handler)
         @handler.expects(:fyi_event?).returns(true)
-
 
         @handler.handle
       end

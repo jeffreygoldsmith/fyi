@@ -7,7 +7,7 @@ module RemoteEvents
   module Slack
     module EventHandlers
       class MessageEventHandlerTest < ActiveSupport::TestCase
-        include RemoteEventHelper
+        include RemoteEventTestHelper
 
         test "#accepts_event_type? returns true for the Message type" do
           assert_equal 1, MessageEventHandler::SUPPORTED_SLACK_EVENT_TYPES.count

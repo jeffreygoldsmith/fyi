@@ -7,7 +7,7 @@ module RemoteEvents
   module Slack
     module EventHandlers
       class ReactionEventHandlerTest < ActiveSupport::TestCase
-        include RemoteEventHelper
+        include RemoteEventTestHelper
 
         test "#accepts_event_type? returns true for the ReactionAdded and ReactionRemoved types" do
           assert_equal 2, ReactionEventHandler::SUPPORTED_SLACK_EVENT_TYPES.count
