@@ -10,7 +10,7 @@ class CreateDocumentation
       user_id: String,
       channel_id: String,
       timestamp: String,
-    )
+    ).void
   end
   def initialize(
     text:,
@@ -24,6 +24,7 @@ class CreateDocumentation
     @timestamp = timestamp
   end
 
+  sig { void }
   def call
     Documentation.create(
       text: @text,
@@ -32,7 +33,7 @@ class CreateDocumentation
       slack_timestamp: @timestamp,
     )
 
-    slack_client.reactions_add(
+    Slack::Client.current.reactions_add(
       channel: channel_id,
       name: FYI_SAVED_EMOJI,
       timestamp: timestamp,
