@@ -34,9 +34,9 @@ class CreateDocumentation
     )
 
     Slack::Client.current.reactions_add(
-      channel: channel_id,
-      name: FYI_SAVED_EMOJI,
-      timestamp: timestamp,
+      channel: @channel_id,
+      name: Rails.application.config.fyi_saved_emoji,
+      timestamp: @timestamp,
     )
   end
 end
