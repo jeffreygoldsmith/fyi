@@ -10,6 +10,24 @@ module Slack
       @client = ::Slack::Web::Client.new
     end
 
+    sig do
+      params(
+        channel_id: String,
+        timestamp: String,
+      ).returns(T::Hash[Symbol, T.untyped])
+    end
+    def message_details(
+      channel_id:,
+      timestamp:
+    )
+      @client.conversations_history(
+        channel: channel_id,
+        latest: timestamp,
+        inclusive: true,
+        limit: 1
+      )[:messages].first
+    end
+
     private
 
     def method_missing(method, *args)
