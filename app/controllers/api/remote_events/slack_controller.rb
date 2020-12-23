@@ -4,6 +4,7 @@ module Api
   module RemoteEvents
     class SlackController < ApiController
       include VerifySlackToken
+      include Loggable
 
       URL_VERIFICATION_EVENT = "url_verification"
       EVENT_CALLBACK_EVENT = "event_callback"
@@ -11,7 +12,10 @@ module Api
       def handle_event
         wrapped_event_type = params[:type]
 
-        Rails.logger.info("Received slack event with wrapped type: #{wrapped_event_type}")
+        fields = {
+          wrapped_event_type: wrapped_event_type,
+        }
+        log_info("Received slack event", fields: fields)
 
         case wrapped_event_type
         when URL_VERIFICATION_EVENT
