@@ -30,7 +30,9 @@ module RemoteEvents
         return if handler.skip_fyi_events? && fyi_event?(user_id: remote_event.user_id)
 
         # Process the remote event
-        handler.process
+        ::Slack::Client.with_current(slack_client) do
+          handler.process
+        end
 
         # Log the event that was handled
         fields = {
