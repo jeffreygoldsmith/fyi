@@ -39,13 +39,17 @@ module RemoteEvents
 
         sig { override.returns(T::Boolean) }
         def process
+          # Parse remote event metadata
           user_id = @remote_event.metadata[:user]
           channel_id = @remote_event.metadata[:channel]
           timestamp = @remote_event.metadata[:timestamp]
 
+          # Inspect message contents for trigger phrases
           fyi_trigger_result = FYI_TRIGGER_REGEXP.match(@remote_event.metadata[:text])
           how_trigger_result = HOW_TRIGGER_REGEXP.match(@remote_event.metadata[:text])
 
+          # If the message contents trigger the ?fyi command, create a new Documentation.
+          # Otherwise, if the message contents trigger the ?how command, query and list Documentation.
           if fyi_trigger_result
             ::Responses::CreateDocumentation.new(
               text: fyi_trigger_result[:documentation],

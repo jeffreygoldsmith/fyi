@@ -37,6 +37,38 @@ module RemoteEvents
 
         sig { override.returns(T::Boolean) }
         def process
+          # Parse remote event metadata
+          reaction = @remote_event.metadata[:reaction]
+          message_channel = @remote_event.metadata[:message_channel]
+          message_timestamp = @remote_event.metadata[:message_timestamp]
+
+          # If the reaction is anything other than the FYI emoji we have no work to do
+          return true unless reaction == Rails.application.config.fyi_emoji
+
+          # Get message details in order to create/destroy Documentation
+          message = ::Slack::Client.current.message_details(
+            channel_id: message_channel,
+            timestamp: message_timestamp
+          )
+
+          # If the FYI emoji was added to a message, create new Documentation.
+          # Otherwise, delete the existing documentation corresponding to the reacted message.
+          #
+          # TODO: document motivation for deletion in README and update here
+          if @event_type == ::Slack::RemoteEvent::Type::ReactionAdded
+            ::Responses::CreateDocumentation.new(
+              text: message[:text],
+              user_id: message[:user],
+              channel_id: message_channel,
+              timestamp: message_timestamp
+            ).call
+          elsif @event_type == ::Slack::RemoteEvent::Type::ReactionRemoved
+            ::Responses::DestroyDocumentation.new(
+
+            ).call
+          end
+
+          true
         end
       end
     end
