@@ -33,7 +33,7 @@ module Responses
       return if documentation.nil?
 
       # Destroy the documentation
-      document.destroy!
+      documentation.destroy!
 
       # Remove the fyi-saved emoji which was placed as a result of documentation creation
       Slack::Client.current.reactions_remove(
