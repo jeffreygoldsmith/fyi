@@ -54,7 +54,7 @@ module Responses
       result_string = "Most recent matching FYIs:\n".dup
 
       # Append each documentation, formatted and separated by a newline
-      result_string += results.map do |documentation|
+      result_string + results.map do |documentation|
         # Fetch relevant documentation information from slack in order to format properly
         conversation_info = ::Slack::Client.current.conversations_info(channel: documentation.slack_channel_id)
         user_info = ::Slack::Client.current.users_info(user: documentation.slack_user_id)

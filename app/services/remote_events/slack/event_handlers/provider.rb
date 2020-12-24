@@ -8,18 +8,13 @@ module RemoteEvents
         class << self
           extend(T::Sig)
 
-          sig do
-            params(
-              event: T::Hash[Symbol, T.untyped],
-              event_type: ::Slack::RemoteEvent::Type,
-            ).returns(BaseEventHandler)
-          end
-          def provide_for(event:, event_type:)
+          sig { params(event_type: ::Slack::RemoteEvent::Type).returns(BaseEventHandler) }
+          def provide_for(event_type:)
             T.must(
               handlers.detect do |handler|
                 handler.accepts_event_type?(event_type: event_type)
               end
-            ).new(event: event, event_type: event_type)
+            ).new(event_type: event_type)
           end
 
           private
@@ -31,7 +26,10 @@ module RemoteEvents
 
           sig { returns(T::Array[T.class_of(BaseEventHandler)]) }
           def supported_event_handlers
-            []
+            [
+              MessageEventHandler,
+              ReactionEventHandler,
+            ]
           end
 
           sig { returns(T.class_of(BaseEventHandler)) }

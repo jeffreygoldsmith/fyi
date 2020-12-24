@@ -32,10 +32,10 @@ module Responses
         .expects(:chat_postMessage)
         .with do |args|
           @expected_documentation.each do |documentation|
-            assert_match /#{documentation.text}/, args[:text]
+            assert_match(/#{documentation.text}/, args[:text])
           end
 
-          refute_match /#{refuted_documentation.text}/, args[:text]
+          refute_match(/#{refuted_documentation.text}/, args[:text])
         end
 
       call_service(
@@ -63,7 +63,7 @@ module Responses
       @mocked_client
         .expects(:chat_postMessage)
         .with do |args|
-          assert_match /No documentation matches your search :\(/, args[:text]
+          assert_match(/No documentation matches your search :\(/, args[:text])
         end
 
       call_service(
@@ -79,8 +79,8 @@ module Responses
         .expects(:conversations_info)
         .returns({
           channel: {
-            name: "test channel name"
-          }
+            name: "test channel name",
+          },
         })
         .at_least_once
 
@@ -88,8 +88,8 @@ module Responses
         .expects(:users_info)
         .returns({
           user: {
-            name: "test user name"
-          }
+            name: "test user name",
+          },
         })
         .at_least_once
     end

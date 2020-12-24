@@ -11,25 +11,21 @@ module RemoteEvents
 
         sig do
           params(
-            event: T::Hash[Symbol, T.untyped],
             event_type: ::Slack::RemoteEvent::Type,
-            slack_client: ::Slack::Web::Client,
           ).void
         end
-        def initialize(event:, event_type:, slack_client:)
-          @event = event
+        def initialize(event_type:)
           @event_type = event_type
-          @slack_client = slack_client
         end
 
         sig { abstract.params(event_type: ::Slack::RemoteEvent::Type).returns(T::Boolean) }
         def self.accepts_event_type?(event_type:); end
 
-        sig { abstract.returns(::Slack::RemoteEvent) }
-        def parse; end
+        sig { abstract.params(event: T::Hash[Symbol, T.untyped]).returns(::Slack::RemoteEvent) }
+        def parse(event:); end
 
-        sig { abstract.returns(T::Boolean) }
-        def process; end
+        sig { abstract.params(remote_event: ::Slack::RemoteEvent).returns(T::Boolean) }
+        def process(remote_event:); end
 
         sig { returns(T::Boolean) }
         def skip_fyi_events?

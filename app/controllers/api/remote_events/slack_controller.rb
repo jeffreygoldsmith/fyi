@@ -21,8 +21,8 @@ module Api
         when URL_VERIFICATION_EVENT
           render(plain: params[:challenge])
         when EVENT_CALLBACK_EVENT
-          remote_event = ::RemoteEvents::Slack::Parser.new(event: params[:event]).parse
-          ::RemoteEvents::Slack::Processor.new(remote_event: remote_event).process
+          permitted_params = params.require(:event).permit!.to_h
+          ::RemoteEvents::Slack::Handler.new(event: permitted_params).handle
           head(:ok)
         else
           head(:bad_request)

@@ -20,27 +20,27 @@ module RemoteEvents
           SUPPORTED_SLACK_EVENT_TYPES.include?(event_type)
         end
 
-        sig { override.returns(::Slack::RemoteEvent) }
-        def parse
+        sig { override.params(event: T::Hash[Symbol, T.untyped]).returns(::Slack::RemoteEvent) }
+        def parse(event:)
           metadata = {
-            reaction: @event[:reaction],
-            message_channel: @event[:item][:channel],
-            message_timestamp: @event[:item][:ts],
+            reaction: event[:reaction],
+            message_channel: event[:item][:channel],
+            message_timestamp: event[:item][:ts],
           }
 
           ::Slack::RemoteEvent.new(
             type: @event_type,
-            user_id: @event[:user],
+            user_id: event[:user],
             metadata: metadata
           )
         end
 
-        sig { override.returns(T::Boolean) }
-        def process
+        sig { override.params(remote_event: ::Slack::RemoteEvent).returns(T::Boolean) }
+        def process(remote_event:)
           # Parse remote event metadata
-          reaction = @remote_event.metadata[:reaction]
-          message_channel = @remote_event.metadata[:message_channel]
-          message_timestamp = @remote_event.metadata[:message_timestamp]
+          reaction = remote_event.metadata[:reaction]
+          message_channel = remote_event.metadata[:message_channel]
+          message_timestamp = remote_event.metadata[:message_timestamp]
 
           # If the reaction is anything other than the FYI emoji we have no work to do
           return true unless reaction == Rails.application.config.fyi_emoji
@@ -64,7 +64,8 @@ module RemoteEvents
             ).call
           elsif @event_type == ::Slack::RemoteEvent::Type::ReactionRemoved
             ::Responses::DestroyDocumentation.new(
-
+              channel_id: message_channel,
+              timestamp: message_timestamp
             ).call
           end
 

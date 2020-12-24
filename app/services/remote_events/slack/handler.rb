@@ -17,21 +17,17 @@ module RemoteEvents
       sig { void }
       def handle
         # Get correct handler from provider based on event type
-        handler = RemoteEvents::Slack::EventHandlers::Provider.provide_for(
-          event: @event,
-          event_type: @event_type,
-          slack_client: slack_client
-        )
+        handler = RemoteEvents::Slack::EventHandlers::Provider.provide_for(event_type: @event_type)
 
         # Parse the raw remote event into an internal representation
-        remote_event = handler.parse
+        remote_event = handler.parse(event: @event)
 
         # If the event was created by FYI and the handler wishes to ignore it - return
         return if handler.skip_fyi_events? && fyi_event?(user_id: remote_event.user_id)
 
         # Process the remote event
         ::Slack::Client.with_current(slack_client) do
-          handler.process
+          handler.process(remote_event: remote_event)
         end
 
         # Log the event that was handled
@@ -47,13 +43,13 @@ module RemoteEvents
 
       sig { params(user_id: String).returns(T::Boolean) }
       def fyi_event?(user_id:)
-        user_info = slack_client.user_info(user_id: user_id)
-        user_info[:is_bot] && user_info[:name] == FYI_NAME
+        user_details = slack_client.user_details(user_id: user_id)
+        user_details.is_bot && user_details.name == FYI_NAME
       end
 
-      sig { returns(::Slack::Web::Client) }
+      sig { returns(::Slack::Client) }
       def slack_client
-        @slack_client ||= ::Slack::Web::Client.new
+        @slack_client ||= ::Slack::Client.new
       end
     end
   end
