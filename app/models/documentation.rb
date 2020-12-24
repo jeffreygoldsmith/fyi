@@ -7,11 +7,12 @@ class Documentation < ApplicationRecord
   FORMATTED_TIME = "%a %b %e %T %Z %Y"
 
   def format(channel_name:, user_name:)
-    FORMATTED_DOCUMENTATION % [
+    Kernel.format(
+      FORMATTED_DOCUMENTATION,
       updated_at.strftime(FORMATTED_TIME),
       "#" + channel_name,
       "@" + user_name,
-      text,
-    ]
+      text
+    )
   end
 end
