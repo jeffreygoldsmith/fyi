@@ -53,8 +53,6 @@ module RemoteEvents
 
           # If the FYI emoji was added to a message, create new Documentation.
           # Otherwise, delete the existing documentation corresponding to the reacted message.
-          #
-          # TODO: document motivation for deletion in README and update here
           if @event_type == ::Slack::RemoteEvent::Type::ReactionAdded
             ::Responses::CreateDocumentationResponse.new(
               text: message[:text],

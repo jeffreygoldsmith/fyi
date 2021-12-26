@@ -1,5 +1,25 @@
 # FYI
 
+## Motivation & Explanation
+
+Using this article on [Etsy's experimentation with immutable documentation](https://codeascraft.com/2018/10/10/etsys-experiment-with-immutable-documentation/) as heavy inspiration, this FYI slackbot is meant as an implementation to what is described in the article.
+
+**As a tl;dr, FYI is a bot which enables channel-local immutable documentation in Slack.**
+
+As a caveat, this bot does provide a way to delete documentation. This functionality is not meant to be used to remove old documentation, it is simply meant as a safeguard against mistakenly marking something as documentation through reacting to a message with the _fyi_ emoji.
+
+## Application Configuration
+
+This project is meant to be a base implementation which can be used as a stepping stone to be deployed and integrated into different company infrastructures.
+
+### Storage
+
+The `QueryDocumentationResponse` class, responsible for grabbing responses for a query and returning them in a formatted list to the user, searches via a naive `"documentation_text LIKE <query>"`. In a production environment, this may not be optimal depending on the usecase.
+
+### Secrets
+
+In order to communicate with Slack, this bot stores its secrets via [ejson](https://github.com/Shopify/ejson).
+
 ## Slack Configuration
 
 ### Secrets
@@ -44,7 +64,9 @@ This bot must subscribe to the following events:
 
 ### Emojis
 
-The FYI bot uses two emojis to do some of its work: the `:fyi:` emoji and the `:fyi-saved:` emoji.
+The FYI bot uses three emojis to do its work: the `:fyi:` emoji, the `:fyi-saved:` emoji, and the `:fyi-error:` emoji.
 These two emojis should be created in the workspace which this bot is installed to.
+
+The names of these emojis can be configured in the `application.rb` file.
 
 Default assets to create these emojis can be found in `/assets`.
