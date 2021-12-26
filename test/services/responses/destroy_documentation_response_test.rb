@@ -4,7 +4,7 @@
 require 'test_helper'
 
 module Responses
-  class DestroyDocumentationTest < ActiveSupport::TestCase
+  class DestroyDocumentationResponseTest < ActiveSupport::TestCase
     test "#call destroys provided documentation" do
       destroyed_documentation = create(:documentation)
 
@@ -43,7 +43,7 @@ module Responses
       channel_id:,
       timestamp:
     )
-      DestroyDocumentation.new(
+      DestroyDocumentationResponse.new(
         channel_id: channel_id,
         timestamp: timestamp
       ).call

@@ -15,7 +15,7 @@ module Slack
       client = Client.new
 
       Client.with_current(client) do
-        assert_equal client, Client.current
+        assert_equal Client.current, client
       end
     end
   end

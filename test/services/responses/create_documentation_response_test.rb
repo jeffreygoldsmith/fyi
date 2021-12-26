@@ -4,7 +4,7 @@
 require 'test_helper'
 
 module Responses
-  class CreateDocumentationTest < ActiveSupport::TestCase
+  class CreateDocumentationResponseTest < ActiveSupport::TestCase
     test "#call persists a new documentation with the correct details" do
       expected_documentation = build(:documentation)
 
@@ -56,7 +56,7 @@ module Responses
       channel_id:,
       timestamp:
     )
-      CreateDocumentation.new(
+      CreateDocumentationResponse.new(
         text: text,
         user_id: user_id,
         channel_id: channel_id,

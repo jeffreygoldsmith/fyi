@@ -26,11 +26,8 @@ module RemoteEvents
         test "#parse returns a remote event with the correct type and metadata" do
           event = raw_reaction_event
           event_type = ::Slack::RemoteEvent::Type::ReactionAdded
-          reaction_event_handler = ReactionEventHandler.new(
-            event: event,
-            event_type: event_type
-          )
-          remote_event = reaction_event_handler.parse
+          reaction_event_handler = ReactionEventHandler.new(event_type: event_type)
+          remote_event = reaction_event_handler.parse(event: event)
 
           expected_user_id = event[:user]
           expected_metadata = {

@@ -7,7 +7,7 @@
 # Effect: create a new Documentation and react with fyi-saved if successful
 #
 module Responses
-  class CreateDocumentation
+  class CreateDocumentationResponse < BaseResponse
     extend(T::Sig)
 
     sig do
@@ -30,8 +30,14 @@ module Responses
       @timestamp = timestamp
     end
 
-    sig { void }
-    def call
+    sig { override.returns(String) }
+    attr_reader :channel_id
+
+    sig { override.returns(String) }
+    attr_reader :timestamp
+
+    sig { override.void }
+    def respond
       # Create a new documentation with the provided parameters
       Documentation.create(
         text: @text,

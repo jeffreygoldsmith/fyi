@@ -16,7 +16,6 @@ module RemoteEvents
         end
 
         setup do
-          @event = raw_remote_event
           @event_type = ::Slack::RemoteEvent::Type::Message
         end
 
@@ -24,7 +23,7 @@ module RemoteEvents
           mocked_event_handler = stub
 
           Provider.stubs(:supported_event_handlers).returns([MockEventHandler, mocked_event_handler])
-          event_handler = Provider.provide_for(event: @event, event_type: @event_type)
+          event_handler = Provider.provide_for(event_type: @event_type)
 
           assert_equal true, event_handler.is_a?(MockEventHandler)
         end
@@ -34,7 +33,7 @@ module RemoteEvents
 
           mocked_event_handler.expects(:accepts_event_type?).with(event_type: @event_type).returns(false)
           Provider.stubs(:supported_event_handlers).returns([mocked_event_handler])
-          event_handler = Provider.provide_for(event: @event, event_type: @event_type)
+          event_handler = Provider.provide_for(event_type: @event_type)
 
           assert_equal true, event_handler.is_a?(UnsupportedEventHandler)
         end

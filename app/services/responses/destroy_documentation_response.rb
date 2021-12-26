@@ -7,7 +7,7 @@
 # Effect: delete the provided documentation and remove the fyi-saved emoji from the given message
 #
 module Responses
-  class DestroyDocumentation
+  class DestroyDocumentationResponse < BaseResponse
     extend(T::Sig)
 
     sig do
@@ -24,8 +24,14 @@ module Responses
       @timestamp = timestamp
     end
 
-    sig { void }
-    def call
+    sig { override.returns(String) }
+    attr_reader :channel_id
+
+    sig { override.returns(String) }
+    attr_reader :timestamp
+
+    sig { override.void }
+    def respond
       # Find the documentation by timestamp
       documentation = Documentation.find_by(slack_timestamp: @timestamp)
 

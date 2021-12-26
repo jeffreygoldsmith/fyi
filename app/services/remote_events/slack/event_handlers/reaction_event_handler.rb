@@ -56,14 +56,14 @@ module RemoteEvents
           #
           # TODO: document motivation for deletion in README and update here
           if @event_type == ::Slack::RemoteEvent::Type::ReactionAdded
-            ::Responses::CreateDocumentation.new(
+            ::Responses::CreateDocumentationResponse.new(
               text: message[:text],
               user_id: message[:user],
               channel_id: message_channel,
               timestamp: message_timestamp
             ).call
           elsif @event_type == ::Slack::RemoteEvent::Type::ReactionRemoved
-            ::Responses::DestroyDocumentation.new(
+            ::Responses::DestroyDocumentationResponse.new(
               channel_id: message_channel,
               timestamp: message_timestamp
             ).call

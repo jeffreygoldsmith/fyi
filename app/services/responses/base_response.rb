@@ -14,17 +14,37 @@ module Responses
   class BaseResponse
     extend(T::Sig)
     extend(T::Helpers)
+    include Loggable
     abstract!
 
     sig { abstract.void }
     def respond; end
 
+    sig { abstract.returns(String) }
+    def channel_id; end
+
+    sig { abstract.returns(String) }
+    def timestamp; end
+
     sig { void }
     def call
-      begin
-        respond
-      catch
-      end
+      # Attempt to issue the given response
+      # If an error occurs, attempt to react with an error emoji
+
+      respond
+    rescue => e
+      fields = {
+        response_type: self.class.name,
+        error_message: e.message,
+      }
+      log_error("Failed to respond due to an error", fields: fields)
+
+      # Attempt to respond with an error emoji
+      Slack::Client.current.reactions_add(
+        channel: @channel_id,
+        name: Rails.application.config.fyi_error_emoji,
+        timestamp: @timestamp,
+      )
     end
   end
 end

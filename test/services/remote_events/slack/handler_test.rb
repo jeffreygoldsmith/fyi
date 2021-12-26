@@ -8,17 +8,21 @@ module RemoteEvents
       include RemoteEventTestHelper
 
       class TestEventHandler < EventHandlers::BaseEventHandler
+        extend(T::Sig)
         include RemoteEventTestHelper
 
+        sig { override.params(event_type: ::Slack::RemoteEvent::Type).returns(T::Boolean) }
         def self.accepts_event_type?(event_type:) # rubocop:disable Lint/UnusedMethodArgument
           true
         end
 
-        def parse
+        sig { override.params(event: T::Hash[Symbol, T.untyped]).returns(::Slack::RemoteEvent) }
+        def parse(event:) # rubocop:disable Lint/UnusedMethodArgument
           build_remote_event
         end
 
-        def process
+        sig { override.params(remote_event: ::Slack::RemoteEvent).returns(T::Boolean) }
+        def process(remote_event:) # rubocop:disable Lint/UnusedMethodArgument
           true
         end
       end
@@ -26,24 +30,18 @@ module RemoteEvents
       setup do
         @event = raw_remote_event
         @remote_event = build_remote_event
-        @event_handler = TestEventHandler.new(
-          event: @event,
-          event_type: @remote_event.type,
-          slack_client: ::Slack::Web::Client.new
-        )
+        @slack_client = mock
+        @event_handler = TestEventHandler.new(event_type: @remote_event.type)
         @handler = Handler.new(event: @event)
       end
 
       test "#handle delegates parsing and processing to the provided handler" do
         EventHandlers::Provider
           .expects(:provide_for)
-          .with(has_entries(
-            event: @event,
-            event_type: ::Slack::RemoteEvent::Type::Message,
-            slack_client: instance_of(::Slack::Web::Client)
-          ))
+          .with(has_entries(event_type: ::Slack::RemoteEvent::Type::Message))
           .returns(@event_handler)
-        @handler.expects(:fyi_event?).returns(true)
+        @handler.expects(:fyi_event?).returns(false)
+        @event_handler.expects(:process)
 
         @handler.handle
       end
@@ -62,18 +60,11 @@ module RemoteEvents
         end
       end
 
-      test "#handle does not skip processing if event was made by fyi if not intended by event handler" do
-        @event_handler.expects(:skip_fyi_events?).returns(false)
-        @event_handler.expects(:process)
-        EventHandlers::Provider.expects(:provide_for).returns(@event_handler)
-
-        @handler.handle
-      end
-
-      test "#handle skips processing if event was made by fyi if intended by event handler" do
+      test "#handle skips processing if event was made by fyi and event handler wishes to ignore fyi events" do
+        @event_handler.expects(:skip_fyi_events?).returns(true)
+        @handler.expects(:fyi_event?).returns(true)
         @event_handler.expects(:process).never
         EventHandlers::Provider.expects(:provide_for).returns(@event_handler)
-        @handler.expects(:fyi_event?).returns(true)
 
         @handler.handle
       end

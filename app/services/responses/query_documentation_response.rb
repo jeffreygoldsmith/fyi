@@ -8,7 +8,7 @@
 #         and return it to the user in a formatted list sorted by most recent.
 #
 module Responses
-  class QueryDocumentation
+  class QueryDocumentationResponse < BaseResponse
     extend(T::Sig)
 
     sig do
@@ -25,8 +25,14 @@ module Responses
       @channel_id = channel_id
     end
 
-    sig { void }
-    def call
+    sig { override.returns(String) }
+    attr_reader :channel_id
+
+    sig { override.returns(String) }
+    attr_reader :timestamp
+
+    sig { override.void }
+    def respond
       # Find all documentation local to a given channel that matches the input string.
       # Additionally, order results by most recent to prepare them to be displayed to the user.
       results = Documentation

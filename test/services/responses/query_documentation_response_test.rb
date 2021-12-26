@@ -4,9 +4,7 @@
 require 'test_helper'
 
 module Responses
-  class QueryDocumentationTest < ActiveSupport::TestCase
-    include SlackTestHelper
-
+  class QueryDocumentationResponseTest < ActiveSupport::TestCase
     setup do
       @channel_id = "test_channel_id"
       @expected_documentation = []
@@ -95,7 +93,7 @@ module Responses
     end
 
     def call_service(query:, channel_id:)
-      QueryDocumentation.new(
+      QueryDocumentationResponse.new(
         query: query,
         channel_id: channel_id
       ).call

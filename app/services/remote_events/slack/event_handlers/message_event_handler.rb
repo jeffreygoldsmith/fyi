@@ -52,7 +52,7 @@ module RemoteEvents
           # Otherwise, if the message contents trigger the ?how command, query and list Documentation.
           if fyi_trigger_result
             documentation = T.must(fyi_trigger_result[:documentation])
-            ::Responses::CreateDocumentation.new(
+            ::Responses::CreateDocumentationResponse.new(
               text: documentation,
               user_id: user_id,
               channel_id: channel_id,
@@ -60,7 +60,7 @@ module RemoteEvents
             ).call
           elsif how_trigger_result
             query = T.must(how_trigger_result[:query])
-            ::Responses::QueryDocumentation.new(
+            ::Responses::QueryDocumentationResponse.new(
               query: query,
               channel_id: channel_id
             ).call

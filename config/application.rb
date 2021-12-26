@@ -44,5 +44,6 @@ module Fyi
 
     config.fyi_emoji = "fyi"
     config.fyi_saved_emoji = "fyi-saved"
+    config.fyi_error_emoji = "fyi-error"
   end
 end
